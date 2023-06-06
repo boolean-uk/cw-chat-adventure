@@ -28,3 +28,30 @@ header {
     text-align: center;
     color: #e9f45b;
 }
+
+.container {
+    max-width: 540px;
+    margin: 0 auto;
+}
+
+.container > * {
+    margin-bottom: 32px;
+}
+
+.genres {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    justify-content: center;
+    gap: 10px;
+}
+
+.genre {
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    font-size: 40px;
+    text-align: center;
+    line-height: 2.4;
+    border: 2px solid #a1d2ff;
+    cursor: pointer;
+}
