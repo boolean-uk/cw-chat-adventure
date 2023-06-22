@@ -15,6 +15,15 @@ const makeRequest = async (url, data) => {
   return response.json();
 }
 
+const showLoadingAnimation = (isLoading) => {
+  const loadingScreen = document.querySelector('.loading');
+  if(isLoading) {
+    loadingScreen.classList.remove('hidden');
+  } else {
+    loadingScreen.classList.add('hidden');
+  }
+}
+
 const startGame = async (genre) => {
   // Message to send to ChatGPT to start the game
   chatGptMessages.push({
@@ -25,6 +34,8 @@ const startGame = async (genre) => {
       'One of these actions is fatal and ends the game. Never add other explanations. Don\'t refer to yourself. ' +
       'Your responses are just in JSON format like this example:\n\n###\n\n {"setting":"setting description","actions":["action 1", "action 2", "action 3"]}\n\n###\n\n'
   });
+
+  showLoadingAnimation(true);
 
   // Send request to ChatGPT Chat Completion API
   // https://platform.openai.com/docs/api-reference/chat/create
@@ -45,6 +56,8 @@ const startGame = async (genre) => {
   const { setting, actions } = content;
   console.log('SETTING:', setting);
   console.log('ACTIONS:', actions);
+
+  showLoadingAnimation(false);
 }
 
 const init = () => {
