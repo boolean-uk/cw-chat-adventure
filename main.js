@@ -16,7 +16,22 @@ const createActions = (actions) => {
   ));
 }
 
-const createStage = (setting, actions) => {
+const createImage = async (genre, setting) => {
+  const generatedImage = await makeRequest(
+    _CONFIG_.API_BASE_URL + '/images/generations',
+    {
+      prompt: `This is a story based on ${genre}. ${setting}`,
+      n: 1,
+      size: '512x512',
+      response_format: 'url',
+    }
+  );
+
+  const image = generatedImage.data[0].url;
+  document.querySelector('.stage-image').innerHTML = `<img src="${image}" alt="${setting}" >`
+}
+
+const createStage = async (genre, setting, actions) => {
   if(!setting || !actions.length) {
     return null;
   }
@@ -26,6 +41,7 @@ const createStage = (setting, actions) => {
 
   createSetting(stage, setting);
   createActions(actions);
+  await createImage(genre, setting);
 }
 
 const startGame = async (genre) => {
@@ -62,7 +78,7 @@ const startGame = async (genre) => {
     const content = JSON.parse(message.content);
     const {setting, actions} = content;
 
-    createStage(setting, actions);
+    await createStage(genre, setting, actions);
 
     showLoadingAnimation(false);
   } catch (error) {
