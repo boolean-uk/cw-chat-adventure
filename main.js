@@ -6,13 +6,16 @@ const createSetting = (stage, setting) => {
   stageContainer.append(stage);
 }
 
-const createActions = (actions) => {
+const createActions = (genre, actions) => {
   const actionsHtml = actions.map((action) => `<button>${action}</button>`).join('');
   document.querySelector('.stage-actions').innerHTML = actionsHtml;
   const buttons = document.querySelectorAll('.stage-actions button');
   buttons.forEach((button) => button.addEventListener(
     'click',
-    () => alert(button.innerText)
+    async () => {
+      addActionMessage(button.innerText);
+      await setStage(genre);
+    }
   ));
 }
 
@@ -36,23 +39,13 @@ const createStage = async (genre, setting, actions) => {
   const stage = stageTemplate.content.cloneNode(true);
 
   createSetting(stage, setting);
-  createActions(actions);
+  createActions(genre, actions);
   await createImage(genre, setting);
 }
 
-const startGame = async (genre) => {
-  showErrorMessage(false);
-  showGenresButtons(false);
-
-  // Message to send to ChatGPT to start the game
-  chatGptMessages.push({
-    role: 'system',
-    content: 'I want you to play like a classic text adventure game. I will be the protagonist and main player. Don\'t refer to yourself. ' +
-      'The setting of this game will have a theme of ' + genre + '. ' +
-      'Each setting has a description of 150 characters followed by an array of 3 possible actions that the player can perform. ' +
-      'One of these actions is fatal and ends the game. Never add other explanations. Don\'t refer to yourself. ' +
-      'Your responses are just in JSON format like this example:\n\n###\n\n {"setting":"setting description","actions":["action 1", "action 2", "action 3"]}\n\n###\n\n'
-  });
+const setStage = async (genre) => {
+  // Reset stage container for each round
+  stageContainer.innerHTML = "";
 
   let chatResponseJson;
 
@@ -93,6 +86,23 @@ const startGame = async (genre) => {
     showErrorMessage(true);
     showGenresButtons(true);
   }
+}
+
+const startGame = async (genre) => {
+  showErrorMessage(false);
+  showGenresButtons(false);
+
+  // Message to send to ChatGPT to start the game
+  chatGptMessages.push({
+    role: 'system',
+    content: 'I want you to play like a classic text adventure game. I will be the protagonist and main player. Don\'t refer to yourself. ' +
+      'The setting of this game will have a theme of ' + genre + '. ' +
+      'Each setting has a description of 150 characters followed by an array of 3 possible actions that the player can perform. ' +
+      'One of these actions is fatal and ends the game. Never add other explanations. Don\'t refer to yourself. ' +
+      'Your responses are just in JSON format like this example:\n\n###\n\n {"setting":"setting description","actions":["action 1", "action 2", "action 3"]}\n\n###\n\n'
+  });
+
+  await setStage(genre);
 }
 
 const init = () => {
