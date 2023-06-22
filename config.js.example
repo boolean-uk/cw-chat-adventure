@@ -4,7 +4,13 @@ window._CONFIG_ = {
     GPT_MODEL: 'gpt-3.5-turbo'
 };
 
-// 1. Get an API key from openai.com
+// 1. Get an API key from openai.com:
+//    a. Log in to your account (create one for free if you don't have one)
+//    b. Click on your user icon / "Personal" in top right hand corner
+//    c. Select "View API keys"
+//    d. Click on "Create new secret key"
+//    e. Optionally give it a name then click "Create secret key"
+//    f. Copy the key, and paste it into the value of the API_KEY property (between the single-quotes)
 // 2. Update the value of the API_KEY property above to be that API key you were given
 // 3. Change the name of this file to config.js instead of config.js.example
 // 4. Run index.html
