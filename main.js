@@ -1,6 +1,21 @@
 const chatGptMessages = [];
 const stageContainer = document.querySelector('.stage-container');
 
+const createSetting = (stage, setting) => {
+  stage.querySelector('.stage-setting').innerHTML = setting;
+  stageContainer.append(stage);
+}
+
+const createActions = (actions) => {
+  const actionsHtml = actions.map((action) => `<button>${action}</button>`).join('');
+  document.querySelector('.stage-actions').innerHTML = actionsHtml;
+  const buttons = document.querySelectorAll('.stage-actions button');
+  buttons.forEach((button) => button.addEventListener(
+    'click',
+    () => alert(button.innerText)
+  ));
+}
+
 const createStage = (setting, actions) => {
   if(!setting || !actions.length) {
     return null;
@@ -8,16 +23,9 @@ const createStage = (setting, actions) => {
 
   const stageTemplate = document.querySelector('#stage-template');
   const stage = stageTemplate.content.cloneNode(true);
-  stage.querySelector('.stage-setting').innerHTML = setting;
-  stageContainer.append(stage);
 
-  const actionsHtml = actions.map((action) => `<button>${action}</button>`).join('');
-  document.querySelector('.stage-actions').innerHTML = actionsHtml;
-  const buttons = document.querySelectorAll('.stage-actions button');
-  buttons.forEach((button) => button.addEventListener(
-    'click',
-    () => alert(button.innerText)
-  ))
+  createSetting(stage, setting);
+  createActions(actions);
 }
 
 const startGame = async (genre) => {
