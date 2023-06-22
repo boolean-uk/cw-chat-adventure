@@ -17,8 +17,10 @@ const showLoadingAnimation = (isLoading) => {
   const loadingScreen = document.querySelector('.loading');
   if(isLoading) {
     loadingScreen.classList.remove('hidden');
+    stageContainer.classList.add('hidden');
   } else {
     loadingScreen.classList.add('hidden');
+    stageContainer.classList.remove('hidden');
   }
 }
 
