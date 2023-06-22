@@ -29,6 +29,22 @@ header {
   padding: 32px;
 }
 
+button {
+  background-color: transparent;
+  padding: 16px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 20px;
+  text-align: center;
+  color: white;
+  border: 2px solid #a1d2ff;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: rgba(255,255,255,0.7);
+  border: 4px solid #f1c82d;
+}
+
 .container {
   max-width: 720px;
   margin: 0 auto;
@@ -45,17 +61,6 @@ header {
   padding: 16px;
 }
 
-.stage-actions button {
-  background-color: transparent;
-  padding: 16px;
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 20px;
-  text-align: center;
-  color: white;
-  border: 2px solid #a1d2ff;
-  cursor: pointer;
-}
-
 .stage-image {
   display: grid;
   place-items: center;
@@ -63,6 +68,20 @@ header {
 
 .stage-image img {
   max-width: 100%;
+}
+
+.game-over-container {
+  position: relative;
+  padding: 24px;
+  text-align: center;
+}
+
+.game-over-container .game-over-logo {
+  font-size: 60px;
+}
+
+.game-over-container button {
+  width: 100%;
 }
 
 .loading {
@@ -90,6 +109,7 @@ header {
 
 .genre {
   background-color: transparent;
+  padding: 0;
   width: 100px;
   height: 100px;
   overflow: hidden;
@@ -98,11 +118,6 @@ header {
   line-height: 2.4;
   border: 4px solid #a1d2ff;
   cursor: pointer;
-}
-
-.genre:hover {
-  background-color: rgba(255,255,255,0.7);
-  border: 4px solid #f1c82d;
 }
 
 .hidden {
