@@ -17,7 +17,7 @@ const addActionMessage = (message) => {
   chatGptMessages.push({
     role: 'user',
     content: `${message}. If this action is fatal the action list is empty. Don't give any text other than a JSON object. Your responses are only in JSON format like this example:\n\n###\n\n {"setting": "
-you died for this reason", "actions": []}###`
+you died for this reason", "actions": []}\n\n###\n\n`
   })
 }
 
