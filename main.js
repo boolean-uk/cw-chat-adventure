@@ -1,4 +1,16 @@
 const chatGptMessages = [];
+const stageContainer = document.querySelector('.stage-container');
+
+const createStage = (setting, actions) => {
+  if(!setting || !actions.length) {
+    return null;
+  }
+
+  const stageTemplate = document.querySelector('#stage-template');
+  const stage = stageTemplate.content.cloneNode(true);
+  stage.querySelector('.stage-setting').innerHTML = setting;
+  stageContainer.append(stage);
+}
 
 const startGame = async (genre) => {
   showErrorMessage(false);
@@ -35,6 +47,8 @@ const startGame = async (genre) => {
     const {setting, actions} = content;
     console.log('SETTING:', setting);
     console.log('ACTIONS:', actions);
+
+    createStage(setting, actions);
 
     showLoadingAnimation(false);
   } catch (error) {
