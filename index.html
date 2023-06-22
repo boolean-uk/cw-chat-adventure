@@ -15,6 +15,7 @@
   <!-- Importing local CSS file -->
   <link href="./style.css" rel="stylesheet">
   <!-- Importing local JS file -->
+  <script src="utils.js" defer></script>
   <script src="config.js" defer></script>
   <script src="main.js" defer></script>
 </head>
@@ -25,20 +26,43 @@
     <p>Hello PLAYER! Welcome to the text adventure game where the story is made up by GPT :)</p>
   </header>
 
-  <div class="loading hidden">
-    <img src="./images/loader.gif" alt="loading icon">
-  </div>
+  <main class="container">
+    <div class="loading hidden">
+      <img src="./images/loader.gif" alt="loading icon">
+    </div>
 
-  <div class="error hidden">
-    <strong>Sorry, something went wrong...</strong>
-    <div class="error-messages"></div>
-  </div>
+    <div class="error hidden">
+      <strong>Sorry, something went wrong...</strong>
+      <div class="error-messages"></div>
+    </div>
 
-  <div class="genres">
-    <button class="genre" data-genre="horror">👻</button>
-    <button class="genre" data-genre="spy film">🕵🏻‍</button>
-    <button class="genre" data-genre="marvel superheros">🦸🏻</button>
-  </div>
+    <div class="stage-container"></div>
+
+    <div class="genres">
+      <button class="genre" data-genre="horror">👻</button>
+      <button class="genre" data-genre="spy film">🕵🏻‍</button>
+      <button class="genre" data-genre="marvel superheros">🦸🏻</button>
+    </div>
+  </main>
+
+
+  <template id="stage-template">
+    <div class="stage-set">
+      <div class="stage-image">
+        <!-- <img src="https://picsum.photos/600" alt=""> -->
+      </div>
+      <p class="stage-setting">
+        <!-- Lorem ipsum -->
+      </p>
+    </div>
+    <div class="stage-actions">
+      <!--
+      <button>Action 1</button>
+      <button>Action 2</button>
+      <button>Action 3</button>
+      -->
+    </div>
+  </template>
 </body>
 
 </html>

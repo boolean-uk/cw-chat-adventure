@@ -29,6 +29,42 @@ header {
   padding: 32px;
 }
 
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.container > * {
+  margin-bottom: 32px;
+}
+
+.stage-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+}
+
+.stage-actions button {
+  background-color: transparent;
+  padding: 16px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 20px;
+  text-align: center;
+  color: white;
+  border: 2px solid #a1d2ff;
+  cursor: pointer;
+}
+
+.stage-image {
+  display: grid;
+  place-items: center;
+}
+
+.stage-image img {
+  max-width: 100%;
+}
+
 .loading {
   display: flex;
   justify-content: center;

@@ -1,40 +1,48 @@
 const chatGptMessages = [];
+const stageContainer = document.querySelector('.stage-container');
 
-const makeRequest = async (url, data) => {
-  const response = await fetch(url, {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${_CONFIG_.API_KEY}`,
-      // Our _CONFIG data is imported in the HTML file using the <script> tag meaning
-      // it is then accessible via global scope (other JS files, browser console, etc).
-    },
-    method: 'POST',
-    body: JSON.stringify(data)
-  });
-
-  return response.json();
+const createSetting = (stage, setting) => {
+  stage.querySelector('.stage-setting').innerHTML = setting;
+  stageContainer.append(stage);
 }
 
-const showLoadingAnimation = (isLoading) => {
-  const loadingScreen = document.querySelector('.loading');
-  if(isLoading) {
-    loadingScreen.classList.remove('hidden');
-  } else {
-    loadingScreen.classList.add('hidden');
-  }
+const createActions = (actions) => {
+  const actionsHtml = actions.map((action) => `<button>${action}</button>`).join('');
+  document.querySelector('.stage-actions').innerHTML = actionsHtml;
+  const buttons = document.querySelectorAll('.stage-actions button');
+  buttons.forEach((button) => button.addEventListener(
+    'click',
+    () => alert(button.innerText)
+  ));
 }
 
-const showErrorMessage = (isError) => {
-  const loadingScreen = document.querySelector('.error');
-  if(isError) {
-    loadingScreen.classList.remove('hidden');
-  } else {
-    loadingScreen.classList.add('hidden');
-  }
+const createImage = async (genre, setting) => {
+  const generatedImage = await makeRequest(
+    _CONFIG_.API_BASE_URL + '/images/generations',
+    {
+      prompt: `This is a story based on ${genre}. ${setting}`,
+      n: 1,
+      size: '512x512',
+      response_format: 'url',
+    }
+  );
+
+  const image = generatedImage.data[0].url;
+  document.querySelector('.stage-image').innerHTML = `<img src="${image}" alt="${setting}" >`
+}
+
+const createStage = async (genre, setting, actions) => {
+  const stageTemplate = document.querySelector('#stage-template');
+  const stage = stageTemplate.content.cloneNode(true);
+
+  createSetting(stage, setting);
+  createActions(actions);
+  await createImage(genre, setting);
 }
 
 const startGame = async (genre) => {
   showErrorMessage(false);
+  showGenresButtons(false);
 
   // Message to send to ChatGPT to start the game
   chatGptMessages.push({
@@ -66,8 +74,11 @@ const startGame = async (genre) => {
     const message = chatResponseJson.choices[0].message;
     const content = JSON.parse(message.content);
     const {setting, actions} = content;
-    console.log('SETTING:', setting);
-    console.log('ACTIONS:', actions);
+
+    // Add the generated message to our message history
+    chatGptMessages.push(message)
+
+    await createStage(genre, setting, actions);
 
     showLoadingAnimation(false);
   } catch (error) {
@@ -80,6 +91,7 @@ const startGame = async (genre) => {
     showLoadingAnimation(false);
     document.querySelector('.error-messages').innerHTML = errorMessages;
     showErrorMessage(true);
+    showGenresButtons(true);
   }
 }
 
