@@ -56,6 +56,15 @@ header {
   cursor: pointer;
 }
 
+.stage-image {
+  display: grid;
+  place-items: center;
+}
+
+.stage-image img {
+  max-width: 100%;
+}
+
 .loading {
   display: flex;
   justify-content: center;
