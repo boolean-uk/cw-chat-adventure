@@ -32,10 +32,6 @@ const createImage = async (genre, setting) => {
 }
 
 const createStage = async (genre, setting, actions) => {
-  if(!setting || !actions.length) {
-    return null;
-  }
-
   const stageTemplate = document.querySelector('#stage-template');
   const stage = stageTemplate.content.cloneNode(true);
 
@@ -78,6 +74,9 @@ const startGame = async (genre) => {
     const message = chatResponseJson.choices[0].message;
     const content = JSON.parse(message.content);
     const {setting, actions} = content;
+
+    // Add the generated message to our message history
+    chatGptMessages.push(message)
 
     await createStage(genre, setting, actions);
 
