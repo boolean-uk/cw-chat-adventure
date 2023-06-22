@@ -12,7 +12,7 @@ const createActions = (actions) => {
   const buttons = document.querySelectorAll('.stage-actions button');
   buttons.forEach((button) => button.addEventListener(
     'click',
-    () => alert(button.innerText)
+    () => addActionMessage(button.innerText)
   ));
 }
 
