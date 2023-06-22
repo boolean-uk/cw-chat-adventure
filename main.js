@@ -24,7 +24,18 @@ const showLoadingAnimation = (isLoading) => {
   }
 }
 
+const showErrorMessage = (isError) => {
+  const loadingScreen = document.querySelector('.error');
+  if(isError) {
+    loadingScreen.classList.remove('hidden');
+  } else {
+    loadingScreen.classList.add('hidden');
+  }
+}
+
 const startGame = async (genre) => {
+  showErrorMessage(false);
+
   // Message to send to ChatGPT to start the game
   chatGptMessages.push({
     role: 'system',
@@ -35,29 +46,41 @@ const startGame = async (genre) => {
       'Your responses are just in JSON format like this example:\n\n###\n\n {"setting":"setting description","actions":["action 1", "action 2", "action 3"]}\n\n###\n\n'
   });
 
-  showLoadingAnimation(true);
+  let chatResponseJson;
 
-  // Send request to ChatGPT Chat Completion API
-  // https://platform.openai.com/docs/api-reference/chat/create
-  const chatJSON = await makeRequest(
-    _CONFIG_.API_BASE_URL + '/chat/completions',
-    {
+  try {
+    showLoadingAnimation(true);
+
+    // Send request to ChatGPT Chat Completion API
+    // https://platform.openai.com/docs/api-reference/chat/create
+    chatResponseJson = await makeRequest(_CONFIG_.API_BASE_URL + '/chat/completions', {
       model: _CONFIG_.GPT_MODEL,
       messages: chatGptMessages,
       temperature: 0.7
       // The model predicts which text is most likely to follow the text preceding it.
-      // Temperature is a value between 0 and 1 that essentially lets you control how confident the model should be when making these predictions.
-      // Lowering temperature means it will take fewer risks, and completions will be more accurate and deterministic.
-      // Increasing temperature will result in more diverse completions.
-  });
+      // Temperature is a value between 0 and 1 that essentially lets you control how confident the model should be
+      // when making these predictions. Lowering temperature means it will take fewer risks, and completions will be
+      // more accurate and deterministic. Increasing temperature will result in more diverse completions.
+    });
 
-  const message = chatJSON.choices[0].message;
-  const content = JSON.parse(message.content);
-  const { setting, actions } = content;
-  console.log('SETTING:', setting);
-  console.log('ACTIONS:', actions);
+    const message = chatResponseJson.choices[0].message;
+    const content = JSON.parse(message.content);
+    const {setting, actions} = content;
+    console.log('SETTING:', setting);
+    console.log('ACTIONS:', actions);
 
-  showLoadingAnimation(false);
+    showLoadingAnimation(false);
+  } catch (error) {
+    let errorMessages = `<p>${error.message}</p>`;
+
+    if (chatResponseJson.error) {
+      errorMessages += `<p>${chatResponseJson.error.message}</p>`;
+    }
+
+    showLoadingAnimation(false);
+    document.querySelector('.error-messages').innerHTML = errorMessages;
+    showErrorMessage(true);
+  }
 }
 
 const init = () => {

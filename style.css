@@ -36,6 +36,15 @@ header {
   height: 512px;
 }
 
+.error {
+  text-align: center;
+  font-size: 24px;
+}
+
+.error > * {
+  color: tomato;
+}
+
 .genres {
   display: grid;
   grid-template-columns: repeat(3, 100px);
