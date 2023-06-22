@@ -29,6 +29,15 @@ header {
   padding: 32px;
 }
 
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.container > * {
+  margin-bottom: 32px;
+}
+
 .loading {
   display: flex;
   justify-content: center;
