@@ -32,3 +32,12 @@ const showErrorMessage = (isError) => {
     loadingScreen.classList.add('hidden');
   }
 }
+
+const showGenresButtons = (isVisible) => {
+  const genres = document.querySelector('.genres');
+  if(isVisible) {
+    genres.classList.remove('hidden');
+  } else {
+    genres.classList.add('hidden');
+  }
+}

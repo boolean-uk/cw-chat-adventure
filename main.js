@@ -46,6 +46,7 @@ const createStage = async (genre, setting, actions) => {
 
 const startGame = async (genre) => {
   showErrorMessage(false);
+  showGenresButtons(false);
 
   // Message to send to ChatGPT to start the game
   chatGptMessages.push({
@@ -91,6 +92,7 @@ const startGame = async (genre) => {
     showLoadingAnimation(false);
     document.querySelector('.error-messages').innerHTML = errorMessages;
     showErrorMessage(true);
+    showGenresButtons(true);
   }
 }
 
