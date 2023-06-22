@@ -34,6 +34,18 @@ const createImage = async (genre, setting) => {
   document.querySelector('.stage-image').innerHTML = `<img src="${image}" alt="${setting}" >`
 }
 
+const gameOver = (setting) => {
+  const gameOverTemplate = document.querySelector('#game-over-template');
+  const gameOver = gameOverTemplate.content.cloneNode(true);
+
+  gameOver.querySelector('.game-over-message').innerText = setting;
+  gameOver.querySelector('.game-over-container button').addEventListener(
+    'click',
+    () => window.location.reload()
+  );
+  stageContainer.append(gameOver);
+}
+
 const createStage = async (genre, setting, actions) => {
   const stageTemplate = document.querySelector('#stage-template');
   const stage = stageTemplate.content.cloneNode(true);
@@ -71,7 +83,11 @@ const setStage = async (genre) => {
     // Add the generated message to our message history
     chatGptMessages.push(message)
 
-    await createStage(genre, setting, actions);
+    if(actions.length) {
+      await createStage(genre, setting, actions);
+    } else {
+      gameOver(setting);
+    }
 
     showLoadingAnimation(false);
   } catch (error) {
