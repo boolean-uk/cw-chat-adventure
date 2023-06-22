@@ -10,6 +10,14 @@ const createStage = (setting, actions) => {
   const stage = stageTemplate.content.cloneNode(true);
   stage.querySelector('.stage-setting').innerHTML = setting;
   stageContainer.append(stage);
+
+  const actionsHtml = actions.map((action) => `<button>${action}</button>`).join('');
+  document.querySelector('.stage-actions').innerHTML = actionsHtml;
+  const buttons = document.querySelectorAll('.stage-actions button');
+  buttons.forEach((button) => button.addEventListener(
+    'click',
+    () => alert(button.innerText)
+  ))
 }
 
 const startGame = async (genre) => {
@@ -45,8 +53,6 @@ const startGame = async (genre) => {
     const message = chatResponseJson.choices[0].message;
     const content = JSON.parse(message.content);
     const {setting, actions} = content;
-    console.log('SETTING:', setting);
-    console.log('ACTIONS:', actions);
 
     createStage(setting, actions);
 

@@ -38,6 +38,24 @@ header {
   margin-bottom: 32px;
 }
 
+.stage-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+}
+
+.stage-actions button {
+  background-color: transparent;
+  padding: 16px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 20px;
+  text-align: center;
+  color: white;
+  border: 2px solid #a1d2ff;
+  cursor: pointer;
+}
+
 .loading {
   display: flex;
   justify-content: center;
